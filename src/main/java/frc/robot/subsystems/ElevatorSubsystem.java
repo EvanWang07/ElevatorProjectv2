@@ -107,7 +107,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             return true;
         }
     }
-
+    
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Left Elevator Position: ", getLeftElevatorMotorPosition());
