@@ -34,7 +34,7 @@ public class RobotContainer {
     e_ElevatorSubsystem.setDefaultCommand(
       new TeleopElevator(
         e_ElevatorSubsystem, 
-        () -> weapons.getRawAxis(w_elevatorMovementAxis)
+        () -> -weapons.getRawAxis(w_elevatorMovementAxis)
       )
     );
     
@@ -42,9 +42,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    w_runElevatorPID.onTrue(new PIDElevator(e_ElevatorSubsystem, 360).withTimeout(5));
-    w_rotateElevatorForward.onTrue(new PIDElevator(e_ElevatorSubsystem, e_ElevatorSubsystem.getAverageElevatorMotorPosition() + 360).withTimeout(5));
-    w_rotateElevatorBackward.onTrue(new PIDElevator(e_ElevatorSubsystem, e_ElevatorSubsystem.getAverageElevatorMotorPosition() - 360).withTimeout(5));
+    w_runElevatorPID.onTrue(new PIDElevator(e_ElevatorSubsystem, 1800).withTimeout(5));
+    w_rotateElevatorForward.onTrue(new PIDElevator(e_ElevatorSubsystem, e_ElevatorSubsystem.getAverageElevatorMotorPosition() + 1800).withTimeout(5));
+    w_rotateElevatorBackward.onTrue(new PIDElevator(e_ElevatorSubsystem, e_ElevatorSubsystem.getAverageElevatorMotorPosition() - 1800).withTimeout(5));
   }
 
   public Command getAutonomousCommand() {

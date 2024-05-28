@@ -16,13 +16,16 @@ public final class Constants {
     public static final int leftElevatorMotorID = 1;
     public static final int rightElevatorMotorID = 2;
 
-    public static final boolean leftElevatorMotorInvert = false;
-    public static final boolean rightElevatorMotorInvert = false;
+    public static final boolean leftElevatorMotorInvert = true;
+    public static final boolean rightElevatorMotorInvert = true;
 
-    public static final double leftElevatorMotorMaxPosition = 1800;
-    public static final double leftElevatorMotorMinPosition = 0;
-    public static final double rightElevatorMotorMaxPosition = 1800;
-    public static final double rightElevatorMotorMinPosition = 0;
+    public static final double leftElevatorMotorOutput = 0.25;
+    public static final double rightElevatorMotorOutput = 0.25;
+
+    public static final double leftElevatorMotorMaxPosition = 36000;
+    public static final double leftElevatorMotorMinPosition = -36000;
+    public static final double rightElevatorMotorMaxPosition = 36000;
+    public static final double rightElevatorMotorMinPosition = -36000;
 
     public static final double leftElevatorMotorStartPosition = 0;
     public static final double rightElevatorMotorStartPosition = 0;

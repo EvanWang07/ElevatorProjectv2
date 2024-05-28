@@ -35,8 +35,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void setElevatorMotorSpeeds(double speed, boolean ignoreBoundsRequirements) {
         if (checkElevatorMotorInvertsAreCorrect()) {
             if (checkElevatorMotorMovementsAreValid(speed) || ignoreBoundsRequirements) {
-                leftElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage));
-                rightElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage));
+                leftElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage * ElevatorConstants.leftElevatorMotorOutput));
+                rightElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage * ElevatorConstants.rightElevatorMotorOutput));
             } else {
                 brakeElevatorMotors();
             }
@@ -59,8 +59,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public double getRightElevatorMotorPosition() {
         var rightElevatorMotorPositionSignal = rightElevatorMotor.getPosition();
-        double leftElevatorMotorAnglePosition = rightElevatorMotorPositionSignal.getValueAsDouble();
-        return Units.rotationsToDegrees(leftElevatorMotorAnglePosition);
+        double rightElevatorMotorAnglePosition = rightElevatorMotorPositionSignal.getValueAsDouble();
+        return Units.rotationsToDegrees(rightElevatorMotorAnglePosition);
     }
 
     public double getAverageElevatorMotorPosition() {
@@ -107,11 +107,12 @@ public class ElevatorSubsystem extends SubsystemBase {
             return true;
         }
     }
-    
+
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Left Elevator Position: ", getLeftElevatorMotorPosition());
-        SmartDashboard.putNumber("Right Elevator Position: ", getRightElevatorMotorPosition());
+        // SmartDashboard.putNumber("Left Elevator Position: ", getLeftElevatorMotorPosition());
+        // SmartDashboard.putNumber("Right Elevator Position: ", getRightElevatorMotorPosition());
+        // System.out.println("Motor Inverts (L/R): " + leftElevatorMotor.getInverted() + ", " + rightElevatorMotor.getInverted());
     }
     
 }
