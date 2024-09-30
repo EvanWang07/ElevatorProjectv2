@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import frc.robot.ScorpsUtility;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -26,7 +26,7 @@ public class PIDElevator extends Command {
 
     @Override
     public void execute() {
-        double newElevatorSpeed = e_PIDController.calculate(e_ElevatorSubsystem.getAverageElevatorMotorPosition());
+        double newElevatorSpeed = e_PIDController.calculate(ScorpsUtility.getAverage(e_ElevatorSubsystem.getLeftElevatorMotorPosition(), e_ElevatorSubsystem.getRightElevatorMotorPosition()));
         e_ElevatorSubsystem.setElevatorMotorSpeeds(newElevatorSpeed, false);
     }
 

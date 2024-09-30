@@ -43,8 +43,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     w_runElevatorPID.onTrue(new PIDElevator(e_ElevatorSubsystem, 1800).withTimeout(5));
-    w_rotateElevatorForward.onTrue(new PIDElevator(e_ElevatorSubsystem, e_ElevatorSubsystem.getAverageElevatorMotorPosition() + 1800).withTimeout(5));
-    w_rotateElevatorBackward.onTrue(new PIDElevator(e_ElevatorSubsystem, e_ElevatorSubsystem.getAverageElevatorMotorPosition() - 1800).withTimeout(5));
+    w_rotateElevatorForward.onTrue(new PIDElevator(e_ElevatorSubsystem, ScorpsUtility.getAverage(e_ElevatorSubsystem.getLeftElevatorMotorPosition(), e_ElevatorSubsystem.getRightElevatorMotorPosition()) + 1800).withTimeout(5));
+    w_rotateElevatorBackward.onTrue(new PIDElevator(e_ElevatorSubsystem, ScorpsUtility.getAverage(e_ElevatorSubsystem.getLeftElevatorMotorPosition(), e_ElevatorSubsystem.getRightElevatorMotorPosition()) - 1800).withTimeout(5));
   }
 
   public Command getAutonomousCommand() {

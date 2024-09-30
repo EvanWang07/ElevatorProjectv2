@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.robot.ScorpsUtility;
 import frc.robot.Constants.ElevatorConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -63,9 +64,16 @@ public class ElevatorSubsystem extends SubsystemBase {
         return Units.rotationsToDegrees(rightElevatorMotorAnglePosition);
     }
 
-    public double getAverageElevatorMotorPosition() {
-        double averageElevatorMotorAnglePosition = (getLeftElevatorMotorPosition() + getRightElevatorMotorPosition()) / 2;
-        return averageElevatorMotorAnglePosition;
+    public double getLeftElevatorMotorVelocity() {
+        var leftElevatorMotorVelocitySignal = leftElevatorMotor.getVelocity();
+        double leftElevatorMotorAnglePerTimeVelocity = leftElevatorMotorVelocitySignal.getValueAsDouble();
+        return Units.rotationsToDegrees(leftElevatorMotorAnglePerTimeVelocity);
+    }
+
+    public double getRightElevatorMotorVelocity() {
+        var rightElevatorMotorVelocitySignal = rightElevatorMotor.getVelocity();
+        double rightElevatorMotorAnglePerTimeVelocity = rightElevatorMotorVelocitySignal.getValueAsDouble();
+        return Units.rotationsToDegrees(rightElevatorMotorAnglePerTimeVelocity);
     }
 
     public boolean checkElevatorMotorMovementsAreValid(double speed) {
@@ -110,9 +118,13 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // SmartDashboard.putNumber("Left Elevator Position: ", getLeftElevatorMotorPosition());
-        // SmartDashboard.putNumber("Right Elevator Position: ", getRightElevatorMotorPosition());
-        // System.out.println("Motor Inverts (L/R): " + leftElevatorMotor.getInverted() + ", " + rightElevatorMotor.getInverted());
+        SmartDashboard.putNumber("Left Motor Position (Degrees): ", getLeftElevatorMotorPosition());
+        SmartDashboard.putNumber("Right Motor Position (Degrees): ", getRightElevatorMotorPosition());
+        SmartDashboard.putNumber("Motor Position Difference (Degrees): ", ScorpsUtility.getAbsoluteDifference(getLeftElevatorMotorPosition(), getRightElevatorMotorPosition()));
+
+        SmartDashboard.putNumber("Left Motor Velociy (Degrees Per Second): ", getLeftElevatorMotorVelocity());
+        SmartDashboard.putNumber("Right Motor Velocity (Degrees Per Second): ", getRightElevatorMotorVelocity());
+        SmartDashboard.putNumber("Motor Velocity Difference (Degrees Per Second): ", ScorpsUtility.getAbsoluteDifference(getLeftElevatorMotorVelocity(), getRightElevatorMotorVelocity()));
     }
     
 }

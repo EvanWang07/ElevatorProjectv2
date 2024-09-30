@@ -19,8 +19,8 @@ public final class Constants {
     public static final boolean leftElevatorMotorInvert = true;
     public static final boolean rightElevatorMotorInvert = true;
 
-    public static final double leftElevatorMotorOutput = 0.25;
-    public static final double rightElevatorMotorOutput = 0.25;
+    public static final double leftElevatorMotorOutput = 0.1;
+    public static final double rightElevatorMotorOutput = 0.1;
 
     public static final double leftElevatorMotorMaxPosition = 36000;
     public static final double leftElevatorMotorMinPosition = -36000;
@@ -30,7 +30,7 @@ public final class Constants {
     public static final double leftElevatorMotorStartPosition = 0;
     public static final double rightElevatorMotorStartPosition = 0;
 
-    public static final double maxElevatorMotorVoltage = 6;
+    public static final double maxElevatorMotorVoltage = 12;
 
     /* The constants below are used in ElevatorCommand.java */
     public static final double elevatorStickDeadband = 0.1;
