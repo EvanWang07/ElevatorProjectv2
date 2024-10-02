@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
@@ -25,6 +26,7 @@ public class RobotContainer {
   private final JoystickButton w_runElevatorPID = new JoystickButton(weapons, XboxController.Button.kA.value);
   private final JoystickButton w_rotateElevatorForward = new JoystickButton(weapons, XboxController.Button.kB.value);
   private final JoystickButton w_rotateElevatorBackward = new JoystickButton(weapons, XboxController.Button.kX.value);
+  private final JoystickButton w_toggleSlowMode = new JoystickButton(weapons, XboxController.Button.kLeftBumper.value);
 
   /* Subsystems */
   private final ElevatorSubsystem e_ElevatorSubsystem = new ElevatorSubsystem();
@@ -42,9 +44,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    w_runElevatorPID.onTrue(new PIDElevator(e_ElevatorSubsystem, 1800).withTimeout(5));
-    w_rotateElevatorForward.onTrue(new PIDElevator(e_ElevatorSubsystem, ScorpsUtility.getAverage(e_ElevatorSubsystem.getLeftElevatorMotorPosition(), e_ElevatorSubsystem.getRightElevatorMotorPosition()) + 1800).withTimeout(5));
-    w_rotateElevatorBackward.onTrue(new PIDElevator(e_ElevatorSubsystem, ScorpsUtility.getAverage(e_ElevatorSubsystem.getLeftElevatorMotorPosition(), e_ElevatorSubsystem.getRightElevatorMotorPosition()) - 1800).withTimeout(5));
+    // w_runElevatorPID.onTrue(new PIDElevator(e_ElevatorSubsystem, 1800).withTimeout(5));
+    // w_rotateElevatorForward.onTrue(new PIDElevator(e_ElevatorSubsystem, ScorpsUtility.getAverage(e_ElevatorSubsystem.getLeftElevatorMotorPosition(), e_ElevatorSubsystem.getRightElevatorMotorPosition()) + 1800).withTimeout(5));
+    // w_rotateElevatorBackward.onTrue(new PIDElevator(e_ElevatorSubsystem, ScorpsUtility.getAverage(e_ElevatorSubsystem.getLeftElevatorMotorPosition(), e_ElevatorSubsystem.getRightElevatorMotorPosition()) - 1800).withTimeout(5));
+    w_toggleSlowMode.onTrue(new InstantCommand(() -> e_ElevatorSubsystem.toggleSlowMode()));
   }
 
   public Command getAutonomousCommand() {

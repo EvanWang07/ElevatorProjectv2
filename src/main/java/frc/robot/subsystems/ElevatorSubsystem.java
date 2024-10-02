@@ -9,16 +9,19 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.controls.VoltageOut;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX leftElevatorMotor;
     private TalonFX rightElevatorMotor;
     private final VoltageOut elevatorRequest = new VoltageOut(0);
+    private double outputMultiplier;
 
     public ElevatorSubsystem() {
         leftElevatorMotor = new TalonFX(ElevatorConstants.leftElevatorMotorID);
         rightElevatorMotor = new TalonFX(ElevatorConstants.rightElevatorMotorID);
+        outputMultiplier = 1.0;
 
         new Thread(() -> {
         try {
@@ -27,6 +30,8 @@ public class ElevatorSubsystem extends SubsystemBase {
             rightElevatorMotor.setInverted(ElevatorConstants.rightElevatorMotorInvert);
             leftElevatorMotor.setPosition(ElevatorConstants.leftElevatorMotorStartPosition);
             rightElevatorMotor.setPosition(ElevatorConstants.rightElevatorMotorStartPosition);
+            leftElevatorMotor.setNeutralMode(NeutralModeValue.Coast);
+            rightElevatorMotor.setNeutralMode(NeutralModeValue.Coast);
         } catch (Exception e) {
             // Intended to be blank
         }
@@ -36,8 +41,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void setElevatorMotorSpeeds(double speed, boolean ignoreBoundsRequirements) {
         if (checkElevatorMotorInvertsAreCorrect()) {
             if (checkElevatorMotorMovementsAreValid(speed) || ignoreBoundsRequirements) {
-                leftElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage * ElevatorConstants.leftElevatorMotorOutput));
-                rightElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage * ElevatorConstants.rightElevatorMotorOutput));
+                leftElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage * ElevatorConstants.leftElevatorMotorOutput * outputMultiplier));
+                rightElevatorMotor.setControl(elevatorRequest.withOutput(speed * ElevatorConstants.maxElevatorMotorVoltage * ElevatorConstants.rightElevatorMotorOutput * outputMultiplier));
             } else {
                 brakeElevatorMotors();
             }
@@ -74,6 +79,14 @@ public class ElevatorSubsystem extends SubsystemBase {
         var rightElevatorMotorVelocitySignal = rightElevatorMotor.getVelocity();
         double rightElevatorMotorAnglePerTimeVelocity = rightElevatorMotorVelocitySignal.getValueAsDouble();
         return Units.rotationsToDegrees(rightElevatorMotorAnglePerTimeVelocity);
+    }
+
+    public void toggleSlowMode() {
+        if (outputMultiplier == 1.0) {
+            outputMultiplier = 0.2; // Speed is 20% when slow mode is on
+        } else {
+            outputMultiplier = 1.0;
+        }
     }
 
     public boolean checkElevatorMotorMovementsAreValid(double speed) {
